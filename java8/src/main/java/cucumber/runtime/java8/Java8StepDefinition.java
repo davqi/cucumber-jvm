@@ -133,7 +133,11 @@ public class Java8StepDefinition implements StepDefinition {
 
         @Override
         public Type resolve() {
-            return requireNonMapOrListType(parameterInfo.getType());
+            Type type = parameterInfo.getType();
+            if (net.jodah.typetools.TypeResolver.Unknown.class.equals(type)) {
+                return null;
+            }
+            return requireNonMapOrListType(type);
         }
 
         private Type requireNonMapOrListType(Type argumentType) {
